@@ -36,7 +36,7 @@
                   <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Designation</th>
+                    <th width="60%">Description</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -48,8 +48,8 @@
                         <td>{{ $faq->title }}</td>                        
                         <td>{{ $faq->description }}</td>
                         <td>
-                            <a href="{{ route('admin.faqs.edit',['id'=>$faq->id]) }}" class="btn btn-secondary text-white" type="button">Edit</a>
-                            <a href="{{ route('admin.faqs.delete',['id'=>$faq->id]) }}" class="btn btn-danger text-white" type="button">Delete</a>
+                            <a href="{{ route('admin.faqs.edit',['id'=>$faq->id]) }}" class="btn btn-secondary text-white" type="button"><i class="fas fa-edit"></i></a>
+                            <a href="{{ route('admin.faqs.delete',['id'=>$faq->id]) }}" class="btn btn-danger text-white" type="button"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                     @endforeach 

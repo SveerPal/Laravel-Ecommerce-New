@@ -57,8 +57,8 @@
                         <td>{{ $clientele->link }}</td>
                         <td>
                             <!-- <a href="{{ route('admin.clienteles.show',['id'=>$clientele->id]) }}" class="btn btn-primary text-white" type="button">View</a> -->
-                            <a href="{{ route('admin.clienteles.edit',['id'=>$clientele->id]) }}" class="btn btn-secondary text-white" type="button">Edit</a>
-                            <a href="{{ route('admin.clienteles.delete',['id'=>$clientele->id]) }}" class="btn btn-danger text-white" type="button">Delete</a>
+                            <a href="{{ route('admin.clienteles.edit',['id'=>$clientele->id]) }}" class="btn btn-secondary text-white" type="button"><i class="fas fa-edit"></i></a>
+                            <a href="{{ route('admin.clienteles.delete',['id'=>$clientele->id]) }}" class="btn btn-danger text-white" type="button"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                     @endforeach 

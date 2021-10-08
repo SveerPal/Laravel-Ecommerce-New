@@ -54,9 +54,9 @@
                         </td>
                         <td>{{ $testimonial->designation }}</td>
                         <td>
-                            <a href="{{ route('admin.testimonials.show',['id'=>$testimonial->id]) }}" class="btn btn-primary text-white" type="button">View</a>
-                            <a href="{{ route('admin.testimonials.edit',['id'=>$testimonial->id]) }}" class="btn btn-secondary text-white" type="button">Edit</a>
-                            <a href="{{ route('admin.testimonials.delete',['id'=>$testimonial->id]) }}" class="btn btn-danger text-white" type="button">Delete</a>
+                            <a href="{{ route('admin.testimonials.show',['id'=>$testimonial->id]) }}" class="btn btn-primary text-white" type="button"><i class="fas fa-eye"></i></a>
+                            <a href="{{ route('admin.testimonials.edit',['id'=>$testimonial->id]) }}" class="btn btn-secondary text-white" type="button"><i class="fas fa-edit"></i></a>
+                            <a href="{{ route('admin.testimonials.delete',['id'=>$testimonial->id]) }}" class="btn btn-danger text-white" type="button"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                     @endforeach 

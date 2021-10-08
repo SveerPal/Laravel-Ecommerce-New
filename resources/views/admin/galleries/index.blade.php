@@ -57,8 +57,8 @@
                         <td>{{ $gallery->link }}</td>
                         <td>
                             <!-- <a href="{{ route('admin.galleries.show',['id'=>$gallery->id]) }}" class="btn btn-primary text-white" type="button">View</a> -->
-                            <a href="{{ route('admin.galleries.edit',['id'=>$gallery->id]) }}" class="btn btn-secondary text-white" type="button">Edit</a>
-                            <a href="{{ route('admin.galleries.delete',['id'=>$gallery->id]) }}" class="btn btn-danger text-white" type="button">Delete</a>
+                            <a href="{{ route('admin.galleries.edit',['id'=>$gallery->id]) }}" class="btn btn-secondary text-white" type="button"><i class="fas fa-edit"></i></a>
+                            <a href="{{ route('admin.galleries.delete',['id'=>$gallery->id]) }}" class="btn btn-danger text-white" type="button"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                     @endforeach 

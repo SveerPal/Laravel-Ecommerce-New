@@ -48,9 +48,9 @@
                         <td>{{ $user->name }}</td>                       
                         <td>{{ $user->email }}</td>
                         <td>
-                            <a href="{{ route('admin.users.show',['id'=>$user->id]) }}" class="btn btn-primary text-white" type="button">View</a>
-                            <a href="{{ route('admin.users.edit',['id'=>$user->id]) }}" class="btn btn-secondary text-white" type="button">Edit</a>
-                            <a href="{{ route('admin.users.delete',['id'=>$user->id]) }}" class="btn btn-danger text-white" type="button">Delete</a>
+                            <a href="{{ route('admin.users.show',['id'=>$user->id]) }}" class="btn btn-primary text-white" type="button"><i class="fas fa-eye"></i></a>
+                            <a href="{{ route('admin.users.edit',['id'=>$user->id]) }}" class="btn btn-secondary text-white" type="button"><i class="fas fa-edit"></i></a>
+                            <a href="{{ route('admin.users.delete',['id'=>$user->id]) }}" class="btn btn-danger text-white" type="button"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                     @endforeach 

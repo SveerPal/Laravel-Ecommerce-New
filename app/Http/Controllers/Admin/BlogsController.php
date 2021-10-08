@@ -101,32 +101,14 @@ class BlogsController extends Controller
      */
     public function show(Blog $blog,$id)
     {
-        /*$blogs = DB::table('blogs')
-                            ->select('blogs.*', 'blog_categories.name as bcname','blog_categories.id as bcid ', 'blog_tags.name as btname','blog_tags.id as btid')
-                            ->join('blog_categories', 'blogs.blog_category_id', '=', 'blog_categories.id')
-                            ->join('blog_tags', 'blogs.blog_tag_id', '=', 'blog_tags.id')
-                            ->whereIn('blog_categories.id'  ,[2, 3])
-                            ->whereIn('blog_tags.id'  ,[2, 3])
-                          //  ->where('blogs.id',$id)
-                            ->get(); */
-/*
-                            $blogs = DB::table('blogs')
-                            ->select('blogs.*', 'blog_categories.name .*')
-                            ->join('blog_categories', 'blogs.blog_category_id', '=', 'blog_categories.id')
-                           // ->join('blog_tags', 'blogs.blog_tag_id', '=', 'blog_tags.id')
-                           // ->whereIn('blog_categories.id'  ,[2, 3])
-                            ->whereRaw("FIND_IN_SET(blog_categories.id,[2, 3])")
-                          //  ->whereIn('blog_tags.id'  ,[2, 3])
-                            ->where('blogs.id',$id)
-                            ->get(); 
-*/
-                      $search = 1;
-                        $blogs = \DB::table("blogs")
-                            ->select("blogs.*")
-                            ->whereRaw("find_in_set('".$search."',blogs.blog_category_id)")
-                            ->where('blogs.id',$id)
-                            ->get();
-                        dd( $blogs); die;   
+        $blogs = DB::table('blogs')
+        ->select('blogs.*',  \DB::raw('group_concat(DISTINCT(blog_categories.name)) as bcname'),\DB::raw('group_concat(DISTINCT(blog_tags.name)) as btname') )                           
+        ->join("blog_categories",\DB::raw("FIND_IN_SET(blog_categories.id,blogs.blog_category_id)"),">",\DB::raw("'0'"))
+        ->join("blog_tags",\DB::raw("FIND_IN_SET(blog_tags.id,blogs.blog_category_id)"),">",\DB::raw("'0'"))
+        ->where('blogs.id',$id)                           
+       /* ->groupBy('blog_categories.name')                           
+        ->groupBy('blog_tags.name') */                          
+        ->get(); 
 
         return view('admin.blogs.view',['blogs' => $blogs])->withTitle('Blogs Detail');
     }
@@ -140,7 +122,9 @@ class BlogsController extends Controller
     public function edit(Blog $blog,$id)
     {
         $blogsdetail = DB::table('blogs')->where('id',$id)->get();
-        return view('admin.blogs.edit',['blogsdetail'=>$blogsdetail])->withTitle('Edit Blogs');
+        $blog_tags = DB::table('blog_tags')->get();
+        $blog_categories = DB::table('blog_categories')->get();
+        return view('admin.blogs.edit',['blogsdetail'=>$blogsdetail,'blog_tags'=>$blog_tags,'blog_categories'=>$blog_categories])->withTitle('Edit Blogs');
     }
 
     /**
@@ -172,7 +156,17 @@ class BlogsController extends Controller
         }else{
             $banner=$request->input('banner_old');
         }
-        
+        $blog_category_id="";
+        $blog_tag_id="";
+     
+        if($request->input('blog_category_id')!= null){
+
+             $blog_category_id= implode(',', $request->input('blog_category_id'));
+        }
+        if($request->input('blog_tag_id')!=null){
+
+              $blog_tag_id = implode(',', $request->input('blog_tag_id'));
+        }
         $blogs = Blog::find($id);
 
         $blogs->name = $request->input('name');
@@ -182,8 +176,8 @@ class BlogsController extends Controller
         $blogs->meta_title = $request->input('meta_title');
         $blogs->meta_description= $request->input('meta_description');     
         $blogs->meta_keywords= $request->input('meta_keywords');
-        $blogs->blog_category_id= $request->input('blog_category_id');
-        $blogs->blog_tag_id= $request->input('blog_tag_id');
+        $blogs->blog_category_id= $blog_category_id;
+        $blogs->blog_tag_id= $blog_tag_id;
         $blogs->description= $request->input('description');
         $blogs->update();
          

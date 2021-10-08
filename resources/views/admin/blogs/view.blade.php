@@ -13,7 +13,7 @@
         <div class="col-md-12">
             <a href="{{ route('admin.blogs') }}" class="btn btn-primary text-white mr-1 mb-4" type="button">Back To Blogs</a>
           <div class="tile">
-            <div class="tile-body">{{ $blogs  }}
+            <div class="tile-body">
                
                    
               <table class="table table-hover table-bordered" id="sampleTable">
@@ -29,7 +29,9 @@
                         </td>
                     </tr>
                     <tr><th>Slug</th><td>{{ $blogs->slug }}</td></tr>
-                    <tr><th>Parent</th><td>{{ $blogs->blog_category_id }}</td></tr>
+                    <tr><th>Descriptipn</th><td>{!! $blogs->description !!}</td></tr>  
+                    <tr><th>Blog Category</th><td>{{ $blogs->bcname }}</td></tr>
+                    <tr><th>Blog Tag</th><td>{{ $blogs->btname }}</td></tr>
                     <tr><th>Meta Title</th><td>{{ $blogs->meta_title }}</td></tr>                  
                     <tr><th>Meta Descriptipn</th><td>{{ $blogs->meta_description }}</td></tr>                  
                     <tr><th>Meta Keywords</th><td>{{ $blogs->meta_keywords }}</td></tr>                  

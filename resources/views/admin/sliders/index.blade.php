@@ -56,9 +56,9 @@
                         <td>{{ $slider->heaading_first }}</td>
                         <td>{{ $slider->heaading_second }}</td>
                         <td>
-                            <a href="{{ route('admin.sliders.show',['id'=>$slider->id]) }}" class="btn btn-primary text-white" type="button">View</a>
-                            <a href="{{ route('admin.sliders.edit',['id'=>$slider->id]) }}" class="btn btn-secondary text-white" type="button">Edit</a>
-                            <a href="{{ route('admin.sliders.delete',['id'=>$slider->id]) }}" class="btn btn-danger text-white" type="button">Delete</a>
+                            <a href="{{ route('admin.sliders.show',['id'=>$slider->id]) }}" class="btn btn-primary text-white" type="button"><i class="fas fa-eye"></i></a>
+                            <a href="{{ route('admin.sliders.edit',['id'=>$slider->id]) }}" class="btn btn-secondary text-white" type="button"><i class="fas fa-edit"></i></a>
+                            <a href="{{ route('admin.sliders.delete',['id'=>$slider->id]) }}" class="btn btn-danger text-white" type="button"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                     @endforeach 
