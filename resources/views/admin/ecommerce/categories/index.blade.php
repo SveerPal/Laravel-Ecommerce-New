@@ -5,7 +5,7 @@
 @section('content')
     <div class="app-title">
         <div>
-            <h1><i class="fa fa-list-alt"></i> {{ $title }}</h1>
+            <h1><i class="fas fa-list-alt"></i> {{ $title }}</h1>
         </div>
     </div>
     
@@ -38,27 +38,25 @@
                     <th>Name</th>
                     <th>Banner</th>
                     <th>Slug</th>
-                    <th>Parent</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
 
-                    @foreach($productcategories as $productcategory)
+                    @foreach($product_categories as $product_category)
                     <tr>
-                        <td>{{ $productcategory->id }}</td>
-                        <td>{{ $productcategory->name }}</td>
+                        <td>{{ $product_category->id }}</td>
+                        <td>{{ $product_category->name }}</td>
                         <td>
-                            @if ($productcategory->banner != null)
-                                <img src="{{ asset('storage/uploads/ecommerce/product_category/'.$productcategory->banner) }}" id="logoImg" style="width: 80px; height: auto;">
+                            @if ($product_category->banner != null)
+                                <img src="{{ asset('storage/uploads/ecommerce/product_category/'.$product_category->banner) }}" id="logoImg" style="width: 80px; height: auto;">
                             @endif  
                         </td>
-                        <td>{{ $productcategory->slug }}</td>
-                        <td>{{ $productcategory->parent }}</td>
+                        <td>{{ $product_category->slug }}</td>
                         <td>
-                            <a href="{{ route('admin.product-categories.show',['id'=>$productcategory->id]) }}" class="btn btn-primary text-white" type="button">View</a>
-                            <a href="{{ route('admin.product-categories.edit',['id'=>$productcategory->id]) }}" class="btn btn-secondary text-white" type="button">Edit</a>
-                            <a href="{{ route('admin.product-categories.delete',['id'=>$productcategory->id]) }}" class="btn btn-danger text-white" type="button">Delete</a>
+                            <a href="{{ route('admin.product-categories.show',['id'=>$product_category->id]) }}" class="btn btn-primary text-white" type="button"><i class="fas fa-eye"></i></a>
+                            <a href="{{ route('admin.product-categories.edit',['id'=>$product_category->id]) }}" class="btn btn-secondary text-white" type="button"><i class="fas fa-edit"></i></a>
+                            <a href="{{ route('admin.product-categories.delete',['id'=>$product_category->id]) }}" class="btn btn-danger text-white" type="button"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                     @endforeach 

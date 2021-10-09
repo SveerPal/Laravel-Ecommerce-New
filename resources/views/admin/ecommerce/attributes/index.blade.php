@@ -36,8 +36,7 @@
                   <tr>
                     <th>ID</th>
                     <th>Name</th>                    
-                    <th>Code</th>
-                    <th>Add Value</th>
+                    <th>Code</th>                    
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -46,12 +45,10 @@
                     @foreach($productattributes as $productattribute)
                     <tr>
                         <td>{{ $productattribute->id }}</td>
-                        <td>{{ $productattribute->name }}</td>
-                       
+                        <td>{{ $productattribute->name }}</td>                       
                         <td>{{ $productattribute->code }}</td>
-                        <td> </td>
                         <td>
-                            <a href="{{ route('admin.product-attributes.show',['id'=>$productattribute->id]) }}" class="btn btn-info text-white" type="button"><i class="fas fa-eye"></i></a>                           
+                            <a href="{{ route('admin.product-attributes.show',['id'=>$productattribute->id]) }}" class="btn btn-info text-white" type="button"><i class="fas fa-info-circle"></i></a>                           
                             <a href="{{ route('admin.product-attributes.edit',['id'=>$productattribute->id]) }}" class="btn btn-secondary text-white" type="button"><i class="fas fa-edit"></i></a>
                             <a href="{{ route('admin.product-attributes.delete',['id'=>$productattribute->id]) }}" class="btn btn-danger text-white" type="button"><i class="fas fa-trash"></i></a>
                         </td>

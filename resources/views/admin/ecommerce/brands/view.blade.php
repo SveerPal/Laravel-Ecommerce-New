@@ -5,7 +5,7 @@
 @section('content')
     <div class="app-title">
         <div>
-            <h1><i class="fas fa-list"></i> {{ $title }}</h1>
+            <h1><i class="fa fa-list"></i> {{ $title }}</h1>
         </div>
     </div>
     
@@ -16,20 +16,21 @@
             <div class="tile-body">
               <table class="table table-hover table-bordered" id="sampleTable">
                 <tbody>
-                    <tr><th>ID</th><td>{{ $productbrands->id }}</td></tr>
-                    <tr> <th>Name</th><td>{{ $productbrands->name }}</td></tr>
+                    <tr><th>ID</th><td>{{ $product_brands->id }}</td></tr>
+                    <tr> <th>Name</th><td>{{ $product_brands->name }}</td></tr>
                     <tr><th>Banner</th>
                         <td>
-                            @if ($productbrands->banner != null)
-                                <img src="{{ asset('storage/uploads/ecommerce/product_brands/'.$productbrands->banner) }}" id="logoImg" style="width: 80px; height: auto;">
+                            @if ($product_brands->banner != null)
+                                <img src="{{ asset('storage/uploads/ecommerce/product_brand/'.$product_brands->banner) }}" id="logoImg" style="width: 80px; height: auto;">
                             @endif 
                         </td>
                     </tr>
-                    <tr><th>Slug</th><td>{{ $productbrands->slug }}</td></tr>
-                    <tr><th>Parent</th><td>{{ $productbrands->parent }}</td></tr>
-                    <tr><th>Meta Title</th><td>{{ $productbrands->meta_title }}</td></tr>                  
-                    <tr><th>Meta Descriptipn</th><td>{{ $productbrands->meta_description }}</td></tr>                  
-                    <tr><th>Descriptipn</th><td>{!! $productbrands->description !!}</td></tr>                  
+                    <tr><th>Slug</th><td>{{ $product_brands->slug }}</td></tr>
+                    <tr><th>Parent</th><td>{{ $product_brands->parentbrandname }}</td></tr>
+                    <tr><th>Meta Title</th><td>{{ $product_brands->meta_title }}</td></tr>                 
+                    <tr><th>Meta Keywords</th><td>{{ $product_brands->meta_keywords }}</td></tr>
+                    <tr><th>Meta Descriptipn</th><td>{{ $product_brands->meta_description }}</td></tr>
+                    <tr><th>Descriptipn</th><td>{!! $product_brands->description !!}</td></tr>
                 </tbody>
               </table>
             </div>

@@ -38,7 +38,7 @@
             </a>
         </li>
         <li class="treeview @if(Route::is('admin.blog-categories') or Route::is('admin.blog-categories.create') or Route::is('admin.blog-categories.show') or Route::is('admin.blog-categories.edit') or Route::is('admin.blogs') or Route::is('admin.blogs.create') or Route::is('admin.blogs.show') or Route::is('admin.blogs.edit') or Route::is('admin.blog-tags') or Route::is('admin.blog-tags.create') or Route::is('admin.blog-tags.show') or Route::is('admin.blog-tags.edit'))   is-expanded @endif">
-            <a class="app-menu__item {{ Route::currentRouteName() == 'admin.product-categories' ? 'active' : '' }}" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-blog"></i>
+            <a class="app-menu__item {{ Route::currentRouteName() == 'admin.blog-categories' ? 'active' : '' }}" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-blog"></i>
 
                 <span class="app-menu__label">Blogs</span>
                 <i class="treeview-indicator fa fa-angle-right"></i>

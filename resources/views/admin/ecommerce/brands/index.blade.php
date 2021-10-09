@@ -38,27 +38,25 @@
                     <th>Name</th>
                     <th>Banner</th>
                     <th>Slug</th>
-                    <th>Parent</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
 
-                    @foreach($productbrands as $productbrand)
+                    @foreach($product_brands as $product_brand)
                     <tr>
-                        <td>{{ $productbrand->id }}</td>
-                        <td>{{ $productbrand->name }}</td>
+                        <td>{{ $product_brand->id }}</td>
+                        <td>{{ $product_brand->name }}</td>
                         <td>
-                            @if ($productbrand->banner != null)
-                                <img src="{{ asset('storage/uploads/ecommerce/product_brands/'.$productbrand->banner) }}" id="logoImg" style="width: 80px; height: auto;">
+                            @if ($product_brand->banner != null)
+                                <img src="{{ asset('storage/uploads/ecommerce/product_brand/'.$product_brand->banner) }}" id="logoImg" style="width: 80px; height: auto;">
                             @endif  
                         </td>
-                        <td>{{ $productbrand->slug }}</td>
-                        <td>{{ $productbrand->parent }}</td>
+                        <td>{{ $product_brand->slug }}</td>
                         <td>
-                            <a href="{{ route('admin.product-brands.show',['id'=>$productbrand->id]) }}" class="btn btn-primary text-white" type="button">View</a>
-                            <a href="{{ route('admin.product-brands.edit',['id'=>$productbrand->id]) }}" class="btn btn-secondary text-white" type="button">Edit</a>
-                            <a href="{{ route('admin.product-brands.delete',['id'=>$productbrand->id]) }}" class="btn btn-danger text-white" type="button">Delete</a>
+                            <a href="{{ route('admin.product-brands.show',['id'=>$product_brand->id]) }}" class="btn btn-primary text-white" type="button"><i class="fas fa-eye"></i></a>
+                            <a href="{{ route('admin.product-brands.edit',['id'=>$product_brand->id]) }}" class="btn btn-secondary text-white" type="button"><i class="fas fa-edit"></i></a>
+                            <a href="{{ route('admin.product-brands.delete',['id'=>$product_brand->id]) }}" class="btn btn-danger text-white" type="button"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                     @endforeach 

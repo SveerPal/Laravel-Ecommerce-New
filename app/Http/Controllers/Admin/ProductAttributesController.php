@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Productattribute;
-use App\Models\Productattributevalue;
+use App\Models\ProductAttribute;
 use Illuminate\Http\Request;
 
+use App\Models\ProductAttributeValue;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Str;
 use Validator;
 
-class ProductattributesController extends Controller
+class ProductAttributesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,7 +20,8 @@ class ProductattributesController extends Controller
      */
     public function index()
     {
-        $productattributes = DB::table('productattributes')->get();  
+
+        $productattributes = DB::table('product_attributes')->get();  
         return view('admin.ecommerce.attributes.index',['productattributes' => $productattributes])->withTitle('Product Attributes');
     }
 
@@ -44,8 +45,8 @@ class ProductattributesController extends Controller
     {
         $validator = Validator::make($request->all(), [            
            
-            'name'                      =>  'required|unique:productattributes',
-            'code'                      =>  'required|unique:productattributes',            
+            'name'                      =>  'required|unique:product_attributes',
+            'code'                      =>  'required|unique:product_attributes',            
             
         ]);
 
@@ -53,7 +54,7 @@ class ProductattributesController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        $productattribute = new Productattribute;
+        $productattribute = new ProductAttribute;
 
         $productattribute->name = $request->input('name');
         $productattribute->code = str_slug($request->input('code'));
@@ -65,26 +66,25 @@ class ProductattributesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Productattribute  $productattribute
+     * @param  \App\Models\ProductAttribute  $productAttribute
      * @return \Illuminate\Http\Response
      */
-    public function show(Productattribute $productattribute,$id)
+    public function show(ProductAttribute $productAttribute,$id)
     {
-        $productattributes = DB::table('productattributes')->where('id',$id)->first();  
-        $productattributesvalues = DB::table('productattributevalues')->where('productattribute_id',$id)->orderBy('id','desc')->get();  
+        $productattributes = DB::table('product_attributes')->where('id',$id)->first();  
+        $productattributesvalues = DB::table('product_attribute_values')->where('product_attribute_id',$id)->orderBy('id','desc')->get();  
         return view('admin.ecommerce.attributes.view',['productattributes' => $productattributes,'productattributesvalues'=>$productattributesvalues])->withTitle('Product Attribute Detail');
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Productattribute  $productattribute
+     * @param  \App\Models\ProductAttribute  $productAttribute
      * @return \Illuminate\Http\Response
      */
-    public function edit(Productattribute $productattribute,$id)
+    public function edit(ProductAttribute $productAttribute,$id)
     {
-        $productattributedtl = DB::table('productattributes')->where('id',$id)->get();        
-            
+        $productattributedtl = DB::table('product_attributes')->where('id',$id)->get(); 
         return view('admin.ecommerce.attributes.edit',['productattributedtl'=>$productattributedtl])->withTitle('Edit Product Attribute');
     }
 
@@ -92,15 +92,15 @@ class ProductattributesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Productattribute  $productattribute
+     * @param  \App\Models\ProductAttribute  $productAttribute
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Productattribute $productattribute,$id)
+    public function update(Request $request, ProductAttribute $productAttribute,$id)
     {
         $validator = Validator::make($request->all(), [            
            
-            'name'                      =>  'required|unique:productattributes,name,'.$id,
-            'code'                      =>  'required|unique:productattributes,code,'.$id,            
+            'name'                      =>  'required|unique:product_attributes,name,'.$id,
+            'code'                      =>  'required|unique:product_attributes,code,'.$id,            
             
         ]);
 
@@ -121,24 +121,39 @@ class ProductattributesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Productattribute  $productattribute
+     * @param  \App\Models\ProductAttribute  $productAttribute
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Productattribute $productattribute,$id)
+    public function destroy(ProductAttribute $productAttribute,$id)
     {
-        $productattributes = DB::table('productattributes')->where('id',$id)->delete(); 
+        $productattributes =DB::table('product_attributes')
+                                      ->leftJoin('product_attribute_values', 'product_attribute_values.product_attribute_id', '=', 'product_attributes.id')
+                                    ->where('product_attributes.id',$id)
+                                    ->delete(); 
+        
         return redirect('admin/product-attributes/')->with('success', 'Product Attribute has been deleted.');
     }
 
 
     //Attribute Value
     public function attributeValueStore(Request $request){
-        $validator = Validator::make($request->all(), [            
-           
-            'productattribute_id'                      =>  'required',
-            'value'                                    =>  'required|unique:productattributevalues',            
-            
-        ]);
+       
+        $validator =Validator::make(
+                        $request->all(), 
+                        [            
+               
+                            'product_attribute_id' =>  'required',
+                            'attvarname'           =>  'required|unique:product_attribute_values,name',
+                            'attvarcode'           =>  'required|unique:product_attribute_values,code'
+                        ],
+                        $messages = [
+                            'product_attribute_id.required' => 'The attribute id missing please reload the page',
+                            'attvarname.required' => 'The attribute variation name required',
+                            'attvarname.unique' => 'The attribute variation name already exist',
+                            'attvarcode.required' => 'The attribute variation code required',
+                            'attvarcode.unique' => 'The attribute variation code already exist',
+                        ]
+                    );
         if ($validator->fails()) {
             //return back()->withErrors($validator)->withInput();
             return response()->json(array(
@@ -147,15 +162,17 @@ class ProductattributesController extends Controller
 
                                 ));
         }
-        $val=$request->input('value');
-        $productattributevalue = new Productattributevalue;
-        $productattributevalue->productattribute_id = $request->input('productattribute_id');
-        $productattributevalue->value = $request->input('value');
+        
+        $name=$request->input('attvarname');
+        $productattributevalue = new ProductAttributeValue;
+        $productattributevalue->product_attribute_id = $request->input('product_attribute_id');
+        $productattributevalue->name = $request->input('attvarname');
+        $productattributevalue->code = str_slug($request->input('attvarcode'));
         $productattributevalue->save();        
         if ($productattributevalue) {
             return response()->json([
                 'status'     => true,
-                'value'     => $val]);
+                'value'     => $name]);
         } else {
             return response()->json([
                 'status' => false]);
@@ -167,17 +184,27 @@ class ProductattributesController extends Controller
     {
         
         //echo $id;
-        $productattributes = DB::table('productattributevalues')->where('id',$id)->delete(); 
+        $productattributes = DB::table('product_attribute_values')->where('id',$id)->delete(); 
         return redirect('admin/product-attributes/show/'.$attr_id)->with('success', 'Product Attribute Value has been deleted.');
     }
 
     public function attributeValueUpdate(Request $request, Productattributevalue $productattributevalue,$id)
     {   
-        $validator = Validator::make($request->all(), [            
-            'productattribute_id'        =>  'required',
-            'value'                      =>  'required|unique:productattributevalues,value,'.$id,         
-            
-        ]);
+        
+       
+        $validator =Validator::make(
+                        $request->all(), 
+                        [        
+                            'attvarname'   =>  'required|unique:product_attribute_values,name,'.$id,
+                            'attvarcode'   =>  'required|unique:product_attribute_values,code,'.$id
+                        ],
+                        $messages = [
+                            'attvarname.required' => 'The attribute variation name required',
+                            'attvarname.unique' => 'The attribute variation name already exist',
+                            'attvarcode.required' => 'The attribute variation code required',
+                            'attvarcode.unique' => 'The attribute variation code already exist',
+                        ]
+                    );
 
         if ($validator->fails()) {
             //return back()->withErrors($validator)->withInput();
@@ -187,18 +214,17 @@ class ProductattributesController extends Controller
 
                                 ));
         }
-        // echo $id.'<br>';
-        // echo  $request->input('productattribute_id');
-        // die;
-        $val=$request->input('value');
-        $productattributevalue = Productattributevalue::find($id);
-       // $productattributevalue->productattribute_id = $request->input('productattribute_id');
-        $productattributevalue->value = $request->input('value');
+    
+        
+        $attvarname=$request->input('attvarname');
+        $productattributevalue = ProductAttributeValue::find($id);
+        $productattributevalue->name = $request->input('attvarname');
+        $productattributevalue->code = $request->input('attvarcode');
         $productattributevalue->update();        
         if ($productattributevalue) {
             return response()->json([
                 'status'     => true,
-                'value'     => $val]);
+                'value'     => $attvarname]);
         } else {
             return response()->json([
                 'status' => false]);

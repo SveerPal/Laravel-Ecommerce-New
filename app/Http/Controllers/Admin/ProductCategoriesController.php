@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Productcategory;
+use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Str;
 use Validator;
-
-class ProductcategoriesController extends Controller
+class ProductCategoriesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,8 +17,8 @@ class ProductcategoriesController extends Controller
      */
     public function index()
     {
-        $productcategories = DB::table('productcategories')->get();  
-        return view('admin.ecommerce.categories.index',['productcategories' => $productcategories])->withTitle('Product Categories');
+        $product_categories = DB::table('product_categories')->get();  
+        return view('admin.ecommerce.categories.index',['product_categories' => $product_categories])->withTitle('Product Categories');
     }
 
     /**
@@ -29,8 +28,7 @@ class ProductcategoriesController extends Controller
      */
     public function create()
     {
-        
-        $parent_product_categories = DB::table('productcategories')->get();
+        $parent_product_categories = DB::table('product_categories')->get();
         return view('admin.ecommerce.categories.create',['parent_product_categories' => $parent_product_categories])->withTitle('Create Product Category');
     }
 
@@ -45,8 +43,8 @@ class ProductcategoriesController extends Controller
         $banner="";
         $validator = Validator::make($request->all(), [            
            
-            'name'                      =>  'required|unique:productcategories',
-            'slug'                      =>  'required|unique:productcategories',            
+            'name'                      =>  'required|unique:product_categories',
+            'slug'                      =>  'required|unique:product_categories',            
             
         ]);
 
@@ -61,60 +59,65 @@ class ProductcategoriesController extends Controller
             $path = $request->file('banner')->storeAs('public/uploads/ecommerce/product_category',$banner);
            /// Setting::where('id', '=', 1)->update(['banner'=>$site_logo]);
         }
-        $productcategory = new Productcategory;
+        $productcategory = new ProductCategory;
 
         $productcategory->name = $request->input('name');
         $productcategory->slug = str_slug($request->input('slug'));
-        $productcategory->parent = $request->input('parent');
+        $productcategory->parent_id = $request->input('parent');
         $productcategory->banner = $banner;
         $productcategory->alt = $request->input('alt');
         $productcategory->meta_title = $request->input('meta_title');
         $productcategory->meta_description= $request->input('meta_description');
+        $productcategory->meta_keywords= $request->input('meta_keywords');
         $productcategory->description= $request->input('description');
         $productcategory->save();
          
         return redirect('admin/product-categories/')->with('success', 'New Product Category has been created.');
-        //return back()->with('success', 'New Page has been created.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Productcategory  $productcategory
+     * @param  \App\Models\ProductCategory  $productCategory
      * @return \Illuminate\Http\Response
      */
-    public function show(Productcategory $productcategory,$id)
+    public function show(ProductCategory $productCategory,$id)
     {
-        $productcategories = DB::table('productcategories')->where('id',$id)->first();  
-        return view('admin.ecommerce.categories.view',['productcategories' => $productcategories])->withTitle('Product Category Detail');
+        $product_categories = DB::table('product_categories as cat')
+                                        ->select('cat.*','parentcat.name as parentcatname')
+                                        ->leftjoin('product_categories as parentcat','cat.parent_id','=','parentcat.id')
+                                        ->where('cat.id',$id)
+                                        ->first();
+
+        return view('admin.ecommerce.categories.view',['product_categories' => $product_categories])->withTitle('Product Category Detail');
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Productcategory  $productcategory
+     * @param  \App\Models\ProductCategory  $productCategory
      * @return \Illuminate\Http\Response
      */
-    public function edit(Productcategory $productcategory,$id)
+    public function edit(ProductCategory $productCategory,$id)
     {
-        $productcategoriesdtl = DB::table('productcategories')->where('id',$id)->get();        
-        $parentproductcategories = DB::table('productcategories')->get();        
-        return view('admin.ecommerce.categories.edit',['parentproductcategories' => $parentproductcategories,'productcategoriesdtl'=>$productcategoriesdtl])->withTitle('Edit Product Category');
+        $product_categories = DB::table('product_categories')->where('id',$id)->get();        
+        $parent_product_categories = DB::table('product_categories')->whereNotIn('id',[$id])->get();        
+        return view('admin.ecommerce.categories.edit',['parent_product_categories' => $parent_product_categories,'product_categories'=>$product_categories])->withTitle('Edit Product Category');
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Productcategory  $productcategory
+     * @param  \App\Models\ProductCategory  $productCategory
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Productcategory $productcategory ,$id)
+    public function update(Request $request, ProductCategory $productCategory,$id)
     {
         $validator = Validator::make($request->all(), [            
            
-            'name'                      =>  'required|unique:productcategories,name,'.$id,
-            'slug'                      =>  'required|unique:productcategories,slug,'.$id,            
+            'name'                      =>  'required|unique:product_categories,name,'.$id,
+            'slug'                      =>  'required|unique:product_categories,slug,'.$id,            
             
         ]);
 
@@ -131,15 +134,16 @@ class ProductcategoriesController extends Controller
             $banner=$request->input('banner_old');
         }
      
-        $productcategory = Productcategory::find($id);
+        $productcategory = ProductCategory::find($id);
 
         $productcategory->name = $request->input('name');
         $productcategory->slug = str_slug($request->input('slug'));
-        $productcategory->parent = $request->input('parent');
+        $productcategory->parent_id = $request->input('parent');
         $productcategory->banner = $banner;
         $productcategory->alt = $request->input('alt');
         $productcategory->meta_title = $request->input('meta_title');
         $productcategory->meta_description= $request->input('meta_description');
+        $productcategory->meta_keywords= $request->input('meta_keywords');
         $productcategory->description= $request->input('description');
         $productcategory->update();
          
@@ -149,12 +153,12 @@ class ProductcategoriesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Productcategory  $productcategory
+     * @param  \App\Models\ProductCategory  $productCategory
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Productcategory $productcategory,$id)
+    public function destroy(ProductCategory $productCategory,$id)
     {
-        $productcategories = DB::table('productcategories')->where('id',$id)->delete(); 
+        $productcategories = DB::table('product_categories')->where('id',$id)->delete(); 
        // $user = User::where('id', $id)->firstorfail()->delete();
         return redirect('admin/product-categories/')->with('success', 'Product Category has been deleted.');
     }

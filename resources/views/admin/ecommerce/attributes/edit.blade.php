@@ -5,7 +5,7 @@
 @section('content')
     <div class="app-title">
         <div>
-            <h1><i class="fas fa-list"></i> {{ $title }}</h1>
+            <h1><i class="fas fa-tag"></i> {{ $title }}</h1>
         </div>
     </div>
     @if(Session::has('success'))

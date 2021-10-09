@@ -25,7 +25,7 @@
     @endif   
     <div class="row user">       
         <div class="col-md-12">
-            <a href="{{ route('admin.product-brands') }}" class="btn btn-primary text-white mr-1 mb-4" type="button">Back To Product Brands</a>
+            <a href="{{ route('admin.product-brands') }}" class="btn btn-primary text-white mr-1 mb-4" type="button">Back To Blog Brand</a>
             <form action="{{ route('admin.product-brands.store') }}" method="POST" role="form" enctype="multipart/form-data">
                 @csrf
                 <div class="tile">  
@@ -48,8 +48,8 @@
                             <label class="control-label" for="Parent"> Parent</label>
                             <select class="form-control" id="parent" name="parent" value="{{ old('parent') }}"/>
                                 <option value="">Select Parent</option>
-                                @foreach($parent_product_brands as $parent_product_brand)                                
-                                    <option value="{{ $parent_product_brand->id }}">{{ $parent_product_brand->name }}</option>
+                                @foreach($parent_product_brands as $parent_pro_brand)                                
+                                    <option value="{{ $parent_pro_brand->id }}">{{ $parent_pro_brand->name }}</option>
                                 @endforeach 
                             </select>
                             @error('parent')
@@ -72,8 +72,7 @@
                             @error('alt')
                                 <div class="alert alert-danger error">{{ $message }}</div>
                             @enderror                                  
-                        </div>
-                        <div cl
+                        </div>                        
                         <div class="form-group col-md-6">
                             <label class="control-label" for="meta_title">Meta Title</label>
                             <textarea class="form-control" rows="1" placeholder="Enter Meta Title" id="meta_title" name="meta_title">{{ old('meta_title') }}</textarea>
@@ -81,10 +80,16 @@
                                 <div class="alert alert-danger error">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-6">
+                            <label class="control-label" for="meta_keywords">Meta Keywords</label>
+                            <textarea class="form-control" rows="1" placeholder="Enter seo meta keywords for store" id="meta_keywords" name="meta_keywords" >{{ old('meta_keywords') }}</textarea>
+                            @error('meta_keywords')
+                                <div class="alert alert-danger error">{{ $message }}</div>
+                            @enderror    
+                        </div> 
+                        <div class="form-group col-md-6">
                             <label class="control-label" for="meta_description">Meta Description</label>
-                            <textarea class="form-control" rows="4" placeholder="Enter seo meta description for store" id="meta_description"
-                                name="meta_description" >{{ old('meta_description') }}</textarea>
+                            <textarea class="form-control" rows="4" placeholder="Enter seo meta description for store" id="meta_description" name="meta_description" >{{ old('meta_description') }}</textarea>
                             @error('meta_description')
                                 <div class="alert alert-danger error">{{ $message }}</div>
                             @enderror    
@@ -102,7 +107,7 @@
                 <div class="tile-footer">
                     <div class="row d-print-none mt-2">
                         <div class="col-12 text-right">
-                            <button class="btn btn-success" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Update Settings</button>
+                            <button class="btn btn-success" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Save</button>
                         </div>
                     </div>
                 </div>    
