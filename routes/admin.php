@@ -18,6 +18,11 @@ use App\Http\Controllers\Admin\ProductAttributesController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\OrdersController;
 
+use Illuminate\Support\Facades\DB;
+use App\Models\Product;
+use App\Models\Blog;
+use App\Models\Order;
+use App\Models\User;
 
 Auth::routes();
 Route::group(['prefix'  =>  'admin'], function () {
@@ -31,7 +36,11 @@ Route::group(['prefix'  =>  'admin'], function () {
     Route::group(['middleware' => ['auth:admin']], function () {
 
 	    Route::get('/', function () {
-	        return view('admin.dashboard.index');
+	    	$pcnt = DB::table('products')->count();
+	    	$bcnt = DB::table('blogs')->count();
+	    	$ucnt = DB::table('users')->count();
+	    	$ocnt = DB::table('orders')->count();
+	        return view('admin.dashboard.index',['pcnt'=>$pcnt,'bcnt'=>$bcnt,'ucnt'=>$ucnt,'ocnt'=>$ocnt]);
 	    })->name('admin.dashboard');
 
 	    //Settings

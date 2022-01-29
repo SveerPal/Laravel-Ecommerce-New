@@ -86,7 +86,7 @@
                 </li>
             </ul>
         </li>
-        <li class="treeview @if(Route::is('admin.orders'))   is-expanded @endif">
+        <li class="treeview @if(Route::is('admin.orders') or Route::is('admin.orders.create') or Route::is('admin.orders.show') or Route::is('admin.orders.edit'))   is-expanded @endif">
             <a class="app-menu__item {{ Route::currentRouteName() == 'admin.orders' ? 'active' : '' }}" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-receipt"></i>
                 <span class="app-menu__label">Orders</span>
                 <i class="treeview-indicator fa fa-angle-right"></i>
