@@ -41,10 +41,18 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-          $image="";
+        $image="";
         $validator = Validator::make($request->all(), [            
            
             'name'                      =>  'required',
+            'email'                     =>  'required|unique:users',
+            'phone'                     =>  'required',
+            /*'address'                   =>  'required',
+            'city'                      =>  'required',
+            'state'                     =>  'required',
+            'country'                   =>  'required',
+            'zipcode'                   =>  'required',*/
+            
             
         ]);
 
@@ -52,22 +60,27 @@ class UsersController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        if($request->hasFile('image')){ 
+        if($request->hasFile('profile')){ 
 
-            $extension = $request->file('image')->extension();
-            $image = $request->input('name').'.'.$extension;//$request->file('site_logo')->getClientOriginalName();               
-            $path = $request->file('image')->storeAs('public/uploads/clienteles',$image);
-           /// Setting::where('id', '=', 1)->update(['banner'=>$site_logo]);
+            $extension = $request->file('profile')->extension();
+            $image = $request->input('name').'.'.$extension;//            
+            $path = $request->file('profile')->storeAs('public/uploads/users',$image);
+           
         }
-        $clientele = new Clientele;
+        $user = new User;
 
-        $clientele->name = $request->input('name');
-        $clientele->link = $request->input('link');
-        $clientele->image = $image;
-        $clientele->alt = $request->input('alt');
-        $clientele->save();
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->phone = $request->input('phone');
+        $user->address = $request->input('address');
+        $user->city = $request->input('city');
+        $user->state = $request->input('state');        
+        $user->country = $request->input('country');
+        $user->zipcode = $request->input('zipcode');
+        $user->profile = $image;
+        $user->save();
          
-        return redirect('admin/clienteles/')->with('success', 'New clientele has been created.');
+        return redirect('admin/users/')->with('success', 'New User has been created.');
     }
 
     /**
@@ -79,7 +92,7 @@ class UsersController extends Controller
     public function show(User $user,$id)
     {
         $users = DB::table('users')->where('id',$id)->first();  
-        return view('admin.users.view',['users' => $clienteles])->withTitle('User Detail');
+        return view('admin.users.view',['users' => $users])->withTitle('User Detail');
     }
 
     /**
@@ -105,9 +118,18 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user,$id)
     {
+        $image="";
         $validator = Validator::make($request->all(), [            
            
             'name'                      =>  'required',
+            'email'                     =>  'required|unique:users,email,'.$id,
+            'phone'                     =>  'required',
+            /*'address'                   =>  'required',
+            'city'                      =>  'required',
+            'state'                     =>  'required',
+            'country'                   =>  'required',
+            'zipcode'                   =>  'required',*/
+            
             
         ]);
 
@@ -115,22 +137,34 @@ class UsersController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        if($request->hasFile('image')){ 
+        if($request->hasFile('profile')){ 
 
-            $extension = $request->file('image')->extension();
-            $image = $request->input('name').'.'.$extension;//$request->file('site_logo')->getClientOriginalName();               
-            $path = $request->file('image')->storeAs('public/uploads/clienteles',$image);
-           /// Setting::where('id', '=', 1)->update(['banner'=>$site_logo]);
+            $extension = $request->file('profile')->extension();
+            $image = $request->input('name').'.'.$extension;//            
+            $path = $request->file('profile')->storeAs('public/uploads/users',$image);
+           
         }
         else{
-            $image=$request->input('image_old');
+            $image=$request->input('profile_old');
         }
         $user = User::find($id);;
 
         $user->name = $request->input('name');
-        $user->link = $request->input('link');
-        $user->image = $image;
-        $user->alt = $request->input('alt');
+        $user->email = $request->input('email');
+        $user->phone = $request->input('phone');
+        $user->address = $request->input('address');
+        $user->city = $request->input('city');
+        $user->state = $request->input('state');        
+        $user->country = $request->input('country');
+        $user->zipcode = $request->input('zipcode');
+        $user->shipping_email = $request->input('shipping_email');
+        $user->shipping_phone = $request->input('shipping_phone');
+        $user->shipping_address = $request->input('shipping_address');
+        $user->shipping_city = $request->input('shipping_city');
+        $user->shipping_state = $request->input('shipping_state');        
+        $user->shipping_country = $request->input('shipping_country');
+        $user->shipping_zipcode = $request->input('shipping_zipcode');
+        $user->profile = $image;
         $user->update();
          
         return redirect('admin/users/')->with("success", $request->input('name')." User has been updated.");

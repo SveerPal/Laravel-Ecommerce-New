@@ -68,7 +68,7 @@
         <li class="treeview @if(Route::is('admin.product-categories') or Route::is('admin.product-categories.create') or Route::is('admin.product-categories.show') or Route::is('admin.product-categories.edit') or Route::is('admin.products') or Route::is('admin.products.create') or Route::is('admin.products.show') or Route::is('admin.products.edit') or Route::is('admin.product-brands') or Route::is('admin.product-brands.create') or Route::is('admin.product-brands.show') or Route::is('admin.product-brands.edit') or Route::is('admin.product-attributes') or Route::is('admin.product-attributes.create') or Route::is('admin.product-attributes.show') or Route::is('admin.product-attributes.edit'))   is-expanded @endif">
             <a class="app-menu__item {{ Route::currentRouteName() == 'admin.product-categories' ? 'active' : '' }}" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-store"></i>
 
-                <span class="app-menu__label">Products</span>
+                <span class="app-menu__label">Store</span>
                 <i class="treeview-indicator fa fa-angle-right"></i>
             </a>
             <ul class="treeview-menu">

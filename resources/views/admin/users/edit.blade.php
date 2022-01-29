@@ -25,84 +25,135 @@
     @endif 
     <div class="row user">       
         <div class="col-md-12">
-            <a href="{{ route('admin.pages') }}" class="btn btn-primary text-white mr-1 mb-4" type="button">Back To Pages</a>
-            @foreach($pagesdetail as $pagedtl)
-            <form action="{{ route('admin.pages.update',['id'=>$pagedtl->id]) }}" method="POST" role="form" enctype="multipart/form-data">
-                @csrf                
+            <a href="{{ route('admin.users') }}" class="btn btn-primary text-white mr-1 mb-4" type="button">Back To Users</a>
+            @foreach($usersdtl as $userdtl)
+            <form action="{{ route('admin.users.update',['id'=>$userdtl->id]) }}" method="POST" role="form" enctype="multipart/form-data">
+                @csrf    
                 <div class="tile">  
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <label class="control-label" for="site_name"> Name</label>
-                            <input class="form-control" type="text" placeholder="Enter  name" id="name" name="name" value="{{ old('name', $pagedtl->name) }}"/>
+                            <label class="control-label" for="name"> Name</label>
+                            <input class="form-control" type="hidden" name="id" value="{{ $userdtl->id }}"/>
+                            <input class="form-control" type="text" placeholder="Enter  name" id="name" name="name" value="{{ old('name',$userdtl->name) }}"/>
                             @error('name')
                                 <div class="alert alert-danger error">{{ $message }}</div>
                             @enderror                                  
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="control-label" for="slug">Slug</label>
-                            <input class="form-control" type="text" placeholder="Enter Slug" id="slug" name="slug" value="{{ old('slug', $pagedtl->slug) }}"/>
-                            @error('slug')
+                            <label class="control-label" for="email">Email</label>
+                            <input class="form-control" type="text" placeholder="Enter Email" id="email" name="email" value="{{ old('email',$userdtl->email) }}"/>
+                            @error('email')
                                 <div class="alert alert-danger error">{{ $message }}</div>
                             @enderror
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label class="control-label" for="Parent"> Parent</label>
-                            <select class="form-control" id="parent" name="parent" value="{{ old('parent') }}"/>
-                                <option value="">Select Parent</option>
-                                @foreach($parentPage as $page)                                
-                                    <option @if ($page->id==$pagedtl->parent) selected="selected" @endif value="{{ $page->id }}">{{ $page->name }}</option>
-                                @endforeach 
-                            </select>
-                            @error('parent')
-                                <div class="alert alert-danger error">{{ $message }}</div>
-                            @enderror
-                        </div>
+                        </div>                       
                         <div class="form-group col-md-5">
-                            <label class="control-label">Banner</label>                             
-                            <input class="form-control" type="file" name="banner" onchange="loadFile(event,'logoImg')"/>
-                            <input class="form-control" type="hidden" name="banner_old" value="{{ $pagedtl->banner }}"/>
-                            @error('banner')
+                            <label class="control-label">Profile</label>                             
+                            <input class="form-control" type="file" name="profile" onchange="loadFile(event,'logoImg')"/>
+                            <input class="form-control" type="hidden" name="profile_old" value="{{ $userdtl->profile }}"/>
+                            @error('profile')
                                 <div class="alert alert-danger error">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="form-group col-md-1">
-                            @if ($pagedtl->banner != null)
-                                <img src="{{ asset('storage/uploads/banner/'.$pagedtl->banner) }}" id="logoImg" style="width: 80px; height: auto;">
+                            @if ($userdtl->profile != null)
+                                <img src="{{ asset('storage/uploads/users/'.$userdtl->profile) }}" id="logoImg" style="width: 80px; height: auto;">
                             @else
                                 <img src="https://via.placeholder.com/80x80?text=Placeholder+Image" id="logoImg" style="width: 80px; height: auto;">
                             @endif                
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="control-label" for="alt"> Alt</label>
-                            <input class="form-control" type="text" placeholder="Enter  alt" id="alt" name="alt" value="{{ old('alt', $pagedtl->alt) }}"/>
-                            @error('alt')
+                            <label class="control-label" for="phone"> Phone</label>
+                            <input class="form-control" type="text" placeholder="Enter Phone" id="phone" name="phone" value="{{ old('phone',$userdtl->phone) }}"/>
+                            @error('phone')
                                 <div class="alert alert-danger error">{{ $message }}</div>
                             @enderror                                  
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="control-label" for="meta_title">Meta Title</label>
-                            <textarea class="form-control" rows="1" placeholder="Enter Meta Title" id="meta_title" name="meta_title">{{ old('meta_title', $pagedtl->meta_title) }}</textarea>
-                            @error('meta_title')
+                            <label class="control-label" for="address">Address</label>
+                            <input class="form-control" type="text" placeholder="Enter Address" id="address" name="address" value="{{ old('address',$userdtl->address) }}"/>
+                            @error('address')
                                 <div class="alert alert-danger error">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="form-group col-md-12">
-                            <label class="control-label" for="meta_description">Meta Description</label>
-                            <textarea class="form-control" rows="4" placeholder="Enter seo meta description for store" id="meta_description"
-                                name="meta_description" >{{ old('meta_description', $pagedtl->meta_description) }}</textarea>
-                            @error('meta_description')
+                        <div class="form-group col-md-6">
+                            <label class="control-label" for="city">City</label>
+                            <input class="form-control" type="text" placeholder="Enter City" id="city" name="city" value="{{ old('city',$userdtl->city) }}"/>
+                            @error('city')
                                 <div class="alert alert-danger error">{{ $message }}</div>
                             @enderror    
                         </div> 
-                        <div class="form-group col-md-12">
-                            <label class="control-label" for="description">Description</label>
-                            <textarea class="form-control" rows="4" placeholder="Enter  description" id="description"
-                                name="description" >{{ old('description', $pagedtl->description) }}</textarea>
-                            @error('description')
+                        <div class="form-group col-md-6">
+                            <label class="control-label" for="state">State</label>
+                           <input class="form-control" type="text" placeholder="Enter State" id="state" name="state" value="{{ old('state',$userdtl->state) }}"/>
+                            @error('state')
                                 <div class="alert alert-danger error">{{ $message }}</div>
                             @enderror    
-                        </div>                        
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="control-label" for="country">Country</label>
+                           <input class="form-control" type="text" placeholder="Enter Country" id="country" name="country" value="{{ old('country',$userdtl->country) }}"/>
+                            @error('country')
+                                <div class="alert alert-danger error">{{ $message }}</div>
+                            @enderror    
+                        </div> 
+                        <div class="form-group col-md-6">
+                            <label class="control-label" for="zipcode">Zip Code</label>
+                           <input class="form-control" type="text" placeholder="Enter Zip Code" id="zipcode" name="zipcode" value="{{ old('zipcode',$userdtl->zipcode) }}"/>
+                            @error('zipcode')
+                                <div class="alert alert-danger error">{{ $message }}</div>
+                            @enderror    
+                        </div>
                     </div>  
+                </div>
+                <div class="tile">
+                    <h3 class="tile-title">Shipping Address</h3>
+                    <hr>
+                    <div class="tile-body">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="shipping_phone"> Phone</label>
+                                <input class="form-control" type="text" placeholder="Enter Phone" id="shipping_phone" name="shipping_phone" value="{{ old('shipping_phone',$userdtl->shipping_phone) }}"/>
+                                @error('shipping_phone')
+                                    <div class="alert alert-danger error">{{ $message }}</div>
+                                @enderror                                  
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="shipping_address">Address</label>
+                                <input class="form-control" type="text" placeholder="Enter Address" id="shipping_address" name="shipping_address" value="{{ old('shipping_address',$userdtl->shipping_address) }}"/>
+                                @error('shipping_address')
+                                    <div class="alert alert-danger error">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="shipping_city">City</label>
+                                <input class="form-control" type="text" placeholder="Enter City" id="shipping_city" name="shipping_city" value="{{ old('shipping_city',$userdtl->shipping_city) }}"/>
+                                @error('shipping_city')
+                                    <div class="alert alert-danger error">{{ $message }}</div>
+                                @enderror    
+                            </div> 
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="shipping_state">State</label>
+                               <input class="form-control" type="text" placeholder="Enter State" id="shipping_state" name="shipping_state" value="{{ old('shipping_state',$userdtl->shipping_state) }}"/>
+                                @error('shipping_state')
+                                    <div class="alert alert-danger error">{{ $message }}</div>
+                                @enderror    
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="shipping_country">Country</label>
+                               <input class="form-control" type="text" placeholder="Enter Country" id="shipping_country" name="shipping_country" value="{{ old('shipping_country',$userdtl->shipping_country) }}"/>
+                                @error('shipping_country')
+                                    <div class="alert alert-danger error">{{ $message }}</div>
+                                @enderror    
+                            </div> 
+                            <div class="form-group col-md-6">
+                                <label class="control-label" for="shipping_zipcode">Zip Code</label>
+                               <input class="form-control" type="text" placeholder="Enter Zip Code" id="shipping_zipcode" name="shipping_zipcode" value="{{ old('shipping_zipcode',$userdtl->shipping_zipcode) }}"/>
+                                @error('shipping_zipcode')
+                                    <div class="alert alert-danger error">{{ $message }}</div>
+                                @enderror    
+                            </div>
+                        </div>    
+                    </div>                    
                 </div>                
                 <div class="tile-footer">
                     <div class="row d-print-none mt-2">

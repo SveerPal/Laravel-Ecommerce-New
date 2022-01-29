@@ -38,6 +38,7 @@
                     <th>Name</th>
                     <th>Phone</th>
                     <th>Email</th>
+                    <th>Profile</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -47,8 +48,15 @@
                     <tr>
                         <td>{{ $user->id }}</td>
                         <td>{{ $user->name }}</td>    
-                        <td>{{-- $user->phone --}}</td>                   
+                        <td>{{ $user->phone }}</td>                   
                         <td>{{ $user->email }}</td>
+                        <td>
+                            @if ($user->profile != null)
+                                <img src="{{ asset('storage/uploads/users/'.$user->profile) }}" id="logoImg" style="width: 80px; height: auto;">
+                            @else
+                                <img src="https://via.placeholder.com/80x80?text=Placeholder+Image" id="logoImg" style="width: 80px; height: auto;">
+                            @endif
+                        </td>
                         <td>
                             <a href="{{ route('admin.users.show',['id'=>$user->id]) }}" class="btn btn-primary text-white" type="button"><i class="fas fa-eye"></i></a>
                             <a href="{{ route('admin.users.edit',['id'=>$user->id]) }}" class="btn btn-secondary text-white" type="button"><i class="fas fa-edit"></i></a>
