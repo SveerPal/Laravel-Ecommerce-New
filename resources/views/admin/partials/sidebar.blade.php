@@ -86,17 +86,17 @@
                 </li>
             </ul>
         </li>
-        <li class="treeview">
-            <a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-receipt"></i>
+        <li class="treeview @if(Route::is('admin.orders'))   is-expanded @endif">
+            <a class="app-menu__item {{ Route::currentRouteName() == 'admin.orders' ? 'active' : '' }}" href="#" data-toggle="treeview"><i class="app-menu__icon fas fa-receipt"></i>
                 <span class="app-menu__label">Orders</span>
                 <i class="treeview-indicator fa fa-angle-right"></i>
             </a>
             <ul class="treeview-menu">
                 <li>
-                    <a class="treeview-item" href="#"><i class="icon fas fa-receipt"></i>Order</a>
+                    <a class="treeview-item @if(Route::is('admin.orders') or Route::is('admin.orders.create') or Route::is('admin.orders.show') or Route::is('admin.orders.edit')) active @endif" href="{{ route('admin.orders') }}"><i class="icon fas fa-receipt"></i>Order</a>
                 </li>
                 <li>
-                    <a class="treeview-item" href="#" target="_blank" rel="noopener noreferrer"><i class="icon fas fa-file-invoice-dollar"></i> Payment</a>
+                    <a class="treeview-item" href="#" target="_blank" rel="noopener noreferrer"><i class="icon fas fa-file-invoice-dollar"></i> Coupan Code</a>
                 </li>                
             </ul>
         </li>

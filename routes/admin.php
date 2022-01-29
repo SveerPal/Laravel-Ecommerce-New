@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\ProductCategoriesController;
 use App\Http\Controllers\Admin\ProductBrandsController;
 use App\Http\Controllers\Admin\ProductAttributesController;
 use App\Http\Controllers\Admin\ProductsController;
+use App\Http\Controllers\Admin\OrdersController;
 
 
 Auth::routes();
@@ -181,6 +182,15 @@ Route::group(['prefix'  =>  'admin'], function () {
 		Route::get('/products/edit/{id}', [ProductsController::class, 'edit'])->name('admin.products.edit');
 		Route::post('/products/update/{id}', [ProductsController::class, 'update'])->name('admin.products.update');
 		Route::get('/products/delete/{id}', [ProductsController::class, 'destroy'])->name('admin.products.delete');
+
+		//Orders
+	    Route::get('/orders', [OrdersController::class, 'index'])->name('admin.orders');
+		Route::get('/orders/show/{id}', [OrdersController::class, 'show'])->name('admin.orders.show');
+		Route::get('/orders/create', [OrdersController::class, 'create'])->name('admin.orders.create');
+		Route::post('/orders/store', [OrdersController::class, 'store'])->name('admin.orders.store');	
+		Route::get('/orders/edit/{id}', [OrdersController::class, 'edit'])->name('admin.orders.edit');
+		Route::post('/orders/update/{id}', [OrdersController::class, 'update'])->name('admin.orders.update');
+		Route::get('/orders/delete/{id}', [OrdersController::class, 'destroy'])->name('admin.orders.delete');
 
 
 	});
