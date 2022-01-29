@@ -231,4 +231,13 @@ class ProductAttributesController extends Controller
         }
     }
 
+
+    //Get Variation in Create Product
+    public function getAttributeVariation(ProductAttribute $productAttribute,$id)
+    {
+          
+        return $productattributesvalues = DB::table('product_attribute_values')->where('product_attribute_id',$id)->orderBy('id','desc')->get();  
+         
+    } 
+
 }

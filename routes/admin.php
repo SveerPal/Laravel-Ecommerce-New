@@ -169,6 +169,8 @@ Route::group(['prefix'  =>  'admin'], function () {
 		Route::post('/product-attributes-value/store', [ProductAttributesController::class, 'attributeValueStore'])->name('admin.product-attributes-value.store');
 		Route::post('/product-attributes-value/update/{id}', [ProductAttributesController::class, 'attributeValueUpdate'])->name('admin.product-attributes-value.update');
 		Route::get('/product-attributes-value/delete/{id}/{attr_id}', [ProductAttributesController::class, 'attributeValueDestroy'])->name('admin.product-attributes-value.delete');
+		Route::get('/product-attributes-variation/getvariation/{id}', [ProductAttributesController::class, 'getAttributeVariation'])->name('admin.product-attributes-variation.getvariation');
+
 
 
 		/* products */

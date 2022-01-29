@@ -5,13 +5,13 @@
 @section('content')
     <div class="app-title">
         <div>
-            <h1><i class="fa fa-cogs"></i> {{ $title }}</h1>
+            <h1><i class="fab fa-product-hunt"></i> {{ $title }}</h1>
         </div>
     </div>
     
     <div class="row">
         <div class="col-md-12">
-            <a href="{{ route('admin.pages') }}" class="btn btn-primary text-white mr-1 mb-4" type="button">Back To Pages</a>
+            <a href="{{ route('admin.products') }}" class="btn btn-primary text-white mr-1 mb-4" type="button">Back To Products</a>
           <div class="tile">
             <div class="tile-body">
               <table class="table table-hover table-bordered" id="sampleTable">
@@ -21,7 +21,7 @@
                     <tr><th>Banner</th>
                         <td>
                             @if ($pages->banner != null)
-                                <img src="{{ asset('storage/uploads/banner/'.$pages->banner) }}" id="logoImg" style="width: 80px; height: auto;">
+                                <img src="{{ asset('storage/uploads/product/'.$pages->banner) }}" id="logoImg" style="width: 80px; height: auto;">
                             @endif 
                         </td>
                     </tr>

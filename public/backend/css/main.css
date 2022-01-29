@@ -14249,3 +14249,12 @@ be a descendant of the grid when it is being dragged.
 .user .user-settings label {
   color: #666;
 }
+
+
+.select2-container {
+	width:inherit!important;
+}
+.productadminselect2 .select2-container {
+	width:100%!important;
+}
+

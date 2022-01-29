@@ -73,7 +73,7 @@
             </a>
             <ul class="treeview-menu">
                 <li>
-                    <a class="treeview-item @if(Route::is('admin.products') or Route::is('admin.products.create') or Route::is('admin.products.show') or Route::is('admin.products.edit')) active @endif" href="{{ route('admin.products') }}"><i class="icon fab fa-product-hunt"></i>Products</a>
+                    <a class="treeview-item @if(Route::is('admin.products') or Route::is('admin.products.create') or Route::is('admin.products.show') or Route::is('admin.products.edit')) active @endif" href="{{ route('admin.products') }}"><i class="icon fa fa-shopping-bag"></i>Products</a>
                 </li>
                 <li>
                     <a class="treeview-item @if(Route::is('admin.product-categories') or Route::is('admin.product-categories.create') or Route::is('admin.product-categories.show') or Route::is('admin.product-categories.edit')) active @endif" href="{{ route('admin.product-categories') }}"><i class="icon fa fa-list-alt"></i> Category</a>

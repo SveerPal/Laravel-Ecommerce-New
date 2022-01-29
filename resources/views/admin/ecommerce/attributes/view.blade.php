@@ -181,6 +181,14 @@
         height: 128px;
         width: 128px;
     }
+    
+.center img {
+    position: absolute;
+    top: 50%;
+    background: #fff;
+    border-radius: 20px;
+    z-index: 9999;
+}
 </style>
 @push('scripts')
     <script type="text/javascript" src="{{ asset('backend/js/plugins/jquery.dataTables.min.js') }}"></script>

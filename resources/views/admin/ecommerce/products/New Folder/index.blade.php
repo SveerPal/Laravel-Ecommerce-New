@@ -5,7 +5,7 @@
 @section('content')
     <div class="app-title">
         <div>
-            <h1><i class="fa fa-user-group"></i> {{ $title }}</h1>
+            <h1><i class="fab fa-product-hunt"></i> {{ $title }}</h1>
         </div>
     </div>
     
@@ -28,7 +28,7 @@
     
     <div class="row">
         <div class="col-md-12">
-            <a href="{{ route('admin.users.create') }}" class="btn btn-primary text-white mr-1 mb-4" type="button">Add New</a>
+            <a href="{{ route('admin.products.create') }}" class="btn btn-primary text-white mr-1 mb-4" type="button">Add New</a>
           <div class="tile">
             <div class="tile-body">
               <table class="table table-hover table-bordered" id="sampleTable">
@@ -36,23 +36,29 @@
                   <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Phone</th>
-                    <th>Email</th>
+                    <th>Banner</th>
+                    <th>Slug</th>
+                    <th>Parent</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
 
-                    @foreach($users as $user)
+                    @foreach($products as $product)
                     <tr>
-                        <td>{{ $user->id }}</td>
-                        <td>{{ $user->name }}</td>    
-                        <td>{{-- $user->phone --}}</td>                   
-                        <td>{{ $user->email }}</td>
+                        <td>{{ $product->id }}</td>
+                        <td>{{ $product->name }}</td>
                         <td>
-                            <a href="{{ route('admin.users.show',['id'=>$user->id]) }}" class="btn btn-primary text-white" type="button"><i class="fas fa-eye"></i></a>
-                            <a href="{{ route('admin.users.edit',['id'=>$user->id]) }}" class="btn btn-secondary text-white" type="button"><i class="fas fa-edit"></i></a>
-                            <a href="{{ route('admin.users.delete',['id'=>$user->id]) }}" class="btn btn-danger text-white" type="button"><i class="fas fa-trash"></i></a>
+                            @if ($product->banner != null)
+                                <img src="{{ asset('storage/uploads/product/'.$product->banner) }}" id="logoImg" style="width: 80px; height: auto;">
+                            @endif  
+                        </td>
+                        <td>{{ $product->slug }}</td>
+                        <td>{{ $product->parent }}</td>
+                        <td>
+                            <a href="{{ route('admin.product.show',['id'=>$product->id]) }}" class="btn btn-primary text-white" type="button">View</a>
+                            <a href="{{ route('admin.product.edit',['id'=>$product->id]) }}" class="btn btn-secondary text-white" type="button">Edit</a>
+                            <a href="{{ route('admin.product.delete',['id'=>$product->id]) }}" class="btn btn-danger text-white" type="button">Delete</a>
                         </td>
                     </tr>
                     @endforeach 
